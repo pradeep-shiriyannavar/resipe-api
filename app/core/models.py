@@ -21,7 +21,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
-    
+
     def create_superuser(self, email, password):
         """Cerate and retuer superuser"""
         user = self.create_user(email, password)

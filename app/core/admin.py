@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
                 'is_superuser',
             )
         }),
-    )           
+    )
 
 
 admin.site.register(models.User, UserAdmin)
