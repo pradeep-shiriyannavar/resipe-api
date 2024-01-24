@@ -53,7 +53,7 @@ class PublicUserApiTests(TestCase):
         """Test if pasword too short"""
         payload = {
             'email': 'test@example.com',
-            'password': 'testpass123',
+            'password': 'pw',
             'name': 'Test Name',
         }
         res = self.client.post(CREATE_USER_URL, payload)
@@ -62,6 +62,6 @@ class PublicUserApiTests(TestCase):
         user_exists = get_user_model().objects.filter(
             email=payload['email']
         ).exists()
-        self.assertEqual(user_exists)
+        self.assertFalse(user_exists)
 
 
