@@ -1,5 +1,5 @@
 """
-Tests for the user API
+Tests for the user API.
 """
 from django.test import TestCase
 from django.contrib.auth import get_user_model
