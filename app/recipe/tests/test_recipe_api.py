@@ -33,22 +33,21 @@ def create_recipe(user, **params):
     return recipe
 
 
-class PublicRecipeAPITests(TestCase):
-    """Un Anuthentucated API reques"""
+class PublicRecipeApiTests(TestCase):
+    """Test unauthenticated recipe API access"""
 
     def setUp(self):
         self.client = APIClient()
 
     def test_auth_required(self):
-        """Test auth is required to call API."""
+        """Test that authentication is required"""
         res = self.client.get(RECIPES_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-
 class PrivateRecipeApiTests(TestCase):
-    """Test authenticated APi request"""
+    """Test unauthenticated recipe API access"""
 
     def setUp(self):
         self.client = APIClient()
@@ -58,23 +57,23 @@ class PrivateRecipeApiTests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-    def test_retribve_recipe(self):
-        """Test retrive a list of ceripe"""
+    def test_retrieve_recipes(self):
+        """Test retrieving a list of recipes"""
         create_recipe(user=self.user)
         create_recipe(user=self.user)
 
-        res= self.client.get(RECIPES_URL)
+        res = self.client.get(RECIPES_URL)
 
-        recipe = Recipe.objects.all().order_by('-id')
-        serializer = RecipeSerializer(recipe, many=True)
+        recipes = Recipe.objects.all().order_by('-id')
+        serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_recipe_list_limited_to_user(self):
-        """Test list of recipe for limited to authenicatde user"""
+    def test_recipes_limited_to_user(self):
+        """Test retrieving recipes for user"""
         other_user = get_user_model().objects.create_user(
             'other@example.com',
-            'password123'
+            'password123',
         )
         create_recipe(user=other_user)
         create_recipe(user=self.user)
@@ -84,4 +83,5 @@ class PrivateRecipeApiTests(TestCase):
         recipes = Recipe.objects.filter(user=self.user)
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        #self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data, serializer.data)
