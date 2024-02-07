@@ -16,6 +16,7 @@ class CreateUserView(generics.CreateAPIView):
     """create a new user in the system"""
     serializer_class = UserSerializer
 
+
 class CreateTokenView(ObtainAuthToken):
     """caret auth token for user"""
     serializer_class = AuthTokenSerializer
@@ -31,4 +32,3 @@ class ManageUserView(generics.RetrieveUpdateAPIView):
     def get_object(self):
         """Retrive and return the authenticated user."""
         return self.request.user
-

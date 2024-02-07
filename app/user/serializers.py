@@ -17,10 +17,11 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('email', 'password', 'name')
         extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
 
+
     def create(self, validated_data):
         """Create and return a encryped password"""
         return get_user_model().objects.create_user(**validated_data)
-    
+
     def update(self, instance, validated_data):
         """Update and retirn user"""
         password = validated_data.pop('password', None)
@@ -53,7 +54,6 @@ class AuthTokenSerializer(serializers.Serializer):
         if not user:
             msz = _('Unable to authenticate with provided credentials.')
             raise serializers.ValidationError(msz, code='authorization')
-        
+
         attrs['user'] = user
         return attrs
-    

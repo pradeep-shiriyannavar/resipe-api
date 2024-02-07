@@ -25,6 +25,7 @@ def detail_url(recipe_id):
     """Create and return a recipe detail Url"""
     return reverse('recipe:recipe-detail', args=[recipe_id])
 
+
 def create_recipe(user, **params):
     """Crete and return a sample recipe"""
     defaults = {
@@ -89,7 +90,6 @@ class PrivateRecipeApiTests(TestCase):
         recipes = Recipe.objects.filter(user=self.user)
         serializer = RecipeSerializer(recipes, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        #self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data, serializer.data)
 
     def test_get_recipe_detail(self):
@@ -105,7 +105,7 @@ class PrivateRecipeApiTests(TestCase):
     def test_create_recipe(self):
         """Test creating a recipe."""
         payload = {
-            'title':'sample recipe',
+            'title': 'sample recipe',
             'time_minute': 30,
             'price': Decimal('5.99',)
         }
@@ -157,7 +157,7 @@ class PrivateRecipeApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         recipe.refresh_from_db()
-        for k,v in payload.items():
+        for k, v in payload.items():
             self.assertEqual(getattr(recipe, k), v)
         self.assertEqual(recipe.user, self.user)
 
