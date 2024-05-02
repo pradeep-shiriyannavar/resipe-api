@@ -108,9 +108,9 @@ class PrivateRecipeApiTests(TestCase):
     def test_create_recipe(self):
         """Test creating a recipe."""
         payload = {
-            'title': 'sample recipe',
+            'title': 'Sample recipe',
             'time_minute': 30,
-            'price': Decimal('5.99',)
+            'price': Decimal('5.99'),
         }
         res = self.client.post(RECIPES_URL, payload)
 
@@ -122,7 +122,7 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_partial_update(self):
         """Test partial update of a recipe"""
-        original_link = "https://example.com/recipe.pdf"
+        original_link = 'https://example.com/recipe.pdf'
         recipe = create_recipe(
             user=self.user,
             title='Sample recipe title',
@@ -144,7 +144,7 @@ class PrivateRecipeApiTests(TestCase):
         recipe = create_recipe(
             user=self.user,
             title='Sample recipe title',
-            link='https://example.com/recipe.pdf',
+            link='https://exmaple.com/recipe.pdf',
             description='Sample recipe description',
         )
 
@@ -186,9 +186,9 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Recipe.objects.filter(id=recipe.id).exists())
 
-    def test_delete_other_user_recipe_error(self):
+    def test_recipe_other_users_recipe_error(self):
         """Test trying to delete another user  give error"""
-        new_user = create_user(email='user2Example.com', password='test123')
+        new_user = create_user(email='user2@example.com', password='test123')
         recipe = create_recipe(user=new_user)
 
         url = detail_url(recipe.id)
@@ -197,7 +197,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Recipe.objects.filter(id=recipe.id).exists())
 
-    def test_create_recipe_with_new_tag(self):
+    def test_create_recipe_with_new_tags(self):
         """Test creating a recipe with new tags"""
         payload = {
             'title': 'Thai Prawn Curry',
