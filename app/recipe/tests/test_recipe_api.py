@@ -23,7 +23,7 @@ from core.models import (
 from recipe.serializers import (
     RecipeSerializer,
     RecipeDetailSerializer,
-    )
+)
 
 
 RECIPES_URL = reverse('recipe:recipe-list')
@@ -381,8 +381,8 @@ class PrivateRecipeApiTests(TestCase):
 
     def test_filter_by_tags(self):
         """Test filtering recipes by tags."""
-        r1 = create_recipe(user=self.user, title='Thai Vegitale Curry')
-        r2 = create_recipe(user=self.user, title='Sengada Holige')
+        r1 = create_recipe(user=self.user, title='Thai Vegetable Curry')
+        r2 = create_recipe(user=self.user, title='Aubergine with Tahini')
         tag1 = Tag.objects.create(user=self.user, name='Vegan')
         tag2 = Tag.objects.create(user=self.user, name='Vegetarian')
         r1.tags.add(tag1)
@@ -411,7 +411,7 @@ class PrivateRecipeApiTests(TestCase):
 
         params = {'ingredients': f'{in1.id},{in2.id}'}
         res = self.client.get(RECIPES_URL, params)
-        
+
         s1 = RecipeSerializer(r1)
         s2 = RecipeSerializer(r2)
         s3 = RecipeSerializer(r3)
